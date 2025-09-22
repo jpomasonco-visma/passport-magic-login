@@ -28,11 +28,14 @@
     "@nestjs/typeorm": "^11.0.0",
     "bcrypt": "^6.0.0",
     "better-sqlite3": "^12.3.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
     "express-session": "^1.18.2",
     "mongoose": "^8.18.2",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-magic-link": "^2.1.1",
+    "passport-magic-login": "^1.2.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "sql.js": "^1.13.0",
@@ -83,5 +86,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }
