@@ -11,8 +11,8 @@ export class UsersService {
         return this.userModel.find().lean<User[]>().exec();
     }
 
-    async create(email: string, password: string, name?: string): Promise<User> {
-        const createdUser = new this.userModel({ email, password, name });
+    async create(email: string, password: string, name?: string, phone?:string): Promise<User> {
+        const createdUser = new this.userModel({ email, password, name, phone });
         return createdUser.save();
     }
 
