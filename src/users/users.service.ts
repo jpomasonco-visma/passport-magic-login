@@ -1,35 +1,31 @@
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User, UserDocument } from './user.schema';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './user.entity';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private repo: Repository<User>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  findAll() {
-    return this.repo.find();
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().lean<User[]>().exec();
   }
 
-  findByEmail(email: string) {
-    return this.repo.findOne({ where: { email } });
-  }
-
-  async create(email: string, password: string, name?: string) {
-    const hashed = await bcrypt.hash(password, 10);
-    const user = this.repo.create({ email, password: hashed, name });
-    return this.repo.save(user);
+  async create(email: string, password: string, name?: string): Promise<User> {
+    const createdUser = new this.userModel({ email, password, name });
+    return createdUser.save();
   }
 
   async validateUser(email: string, password: string): Promise<User | null> {
-    const user = await this.findByEmail(email);
-    if (!user) return null;
-
-    const isValid = await bcrypt.compare(password, user.password);
-    return isValid ? user : null;
+  const user = await this.userModel.findOne({ email }).exec();
+  if (user && user.password === password) {
+    return user;
   }
+  return null;
+    }
+
+    async findById(id: string): Promise<User | null> {
+  return this.userModel.findById(id).exec();
+}
+
 }
